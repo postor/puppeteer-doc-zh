@@ -214,25 +214,25 @@
 
 <!-- tocstop -->
 
-### Overview
+### 总览
 
-Puppeteer is a Node library which provides a high-level API to control Chromium or Chrome over the DevTools Protocol.
+Puppeteer 是一个Node库，它提供了一个上层API通过DevTools Protocol来控制Chromium或Chrome.
 
-Puppeteer API is hierarchical and mirrors browser structure. On the following diagram, faded entities are not currently represented in Puppeteer.
+Puppeteer API 是一个多层架构并且复制了浏览器的结构. 在下图中, 浅色的元素都是当前Puppeteer还没有提供的特性.
 
 ![puppeteer overview](https://user-images.githubusercontent.com/746130/31592143-089f6f9a-b1db-11e7-9a20-16b7fc754fa1.png)
 
-- [`Puppeteer`](#class-puppeteer) communicates with browser using [devtools protocol](https://chromedevtools.github.io/devtools-protocol/).
-- [`Browser`](#class-browser) instance owns multiple pages.
-- [`Page`](#class-page) has at least one frame: main frame. There might be other frames created by [iframe](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe) or [frame](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/frame) tags.
-- [`Frame`](#class-frame) has at least one execution context - default execution context - where frame's JavaScript is executed. Frame might have additional execution contexts associated with [extensions](https://developer.chrome.com/extensions).
+- [`Puppeteer`](#class-puppeteer) 基于 [devtools protocol](https://chromedevtools.github.io/devtools-protocol/) 和浏览器通信.
+- [`Browser`](#class-browser) 实例拥有多个 page.
+- [`Page`](#class-page) 至少包含一个frame: main frame. 也可能会有其他的由 [iframe](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe) 或 [frame](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/frame) 标签创建的frame.
+- [`Frame`](#class-frame) 包含至少一个执行上下文 - default execution context - 在这里 frame 的 JavaScript 被执行. 由于 [extensions](https://developer.chrome.com/extensions)的帮助，Frame 有可能还有其他的执行上下文
 
 (Diagram source: [link](https://docs.google.com/drawings/d/1Q_AM6KYs9kbyLZF-Lpp5mtpAWth73Cq8IKCsWYgi8MM/edit?usp=sharing))
 
 
-### Environment Variables
+### 环境变量
 
-Puppeteer looks for certain [environment variables](https://en.wikipedia.org/wiki/Environment_variable) to aid its operations. These variables can either be set in the environment or in the [npm config](https://docs.npmjs.com/cli/config).
+Puppeteer 会获取指定的 [环境变量](https://en.wikipedia.org/wiki/Environment_variable) 来辅助自己的行为. 这些变量既可以通过环境变量设置（系统级），也可以通过 [npm 配置](https://docs.npmjs.com/cli/config)来实现.
 
 - `HTTP_PROXY`, `HTTPS_PROXY`, `NO_PROXY` - defines HTTP proxy settings that are used to download and run Chromium.
 - `PUPPETEER_SKIP_CHROMIUM_DOWNLOAD` - do not download bundled Chromium during installation step.
