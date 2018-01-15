@@ -234,14 +234,14 @@ Puppeteer API 是一个多层架构并且复制了浏览器的结构. 在下图�
 
 Puppeteer 会获取指定的 [环境变量](https://en.wikipedia.org/wiki/Environment_variable) 来辅助自己的行为. 这些变量既可以通过环境变量设置（系统级），也可以通过 [npm 配置](https://docs.npmjs.com/cli/config)来实现.
 
-- `HTTP_PROXY`, `HTTPS_PROXY`, `NO_PROXY` - defines HTTP proxy settings that are used to download and run Chromium.
-- `PUPPETEER_SKIP_CHROMIUM_DOWNLOAD` - do not download bundled Chromium during installation step.
-- `PUPPETEER_DOWNLOAD_HOST` - overwrite host part of URL that is used to download Chromium
+- `HTTP_PROXY`, `HTTPS_PROXY`, `NO_PROXY` - 定义了下载和运行Chromium所使用的http代理.
+- `PUPPETEER_SKIP_CHROMIUM_DOWNLOAD` - 在安装阶段不要下载打包的Chromium.
+- `PUPPETEER_DOWNLOAD_HOST` - 重写用于下载Chromium所使用URL中的host部分
 
 ### class: Puppeteer
 
-Puppeteer module provides a method to launch a Chromium instance.
-The following is a typical example of using a Puppeteer to drive automation:
+Puppeteer 模块提供了一个方法来启动Chromium实例.
+以下代码是使用Puppeteer做自动化的典型例子:
 ```js
 const puppeteer = require('puppeteer');
 
@@ -255,24 +255,24 @@ puppeteer.launch().then(async browser => {
 
 #### puppeteer.connect(options)
 - `options` <[Object]>
-  - `browserWSEndpoint` <[string]> a [browser websocket endpoint](#browserwsendpoint) to connect to.
-  - `ignoreHTTPSErrors` <[boolean]> Whether to ignore HTTPS errors during navigation. Defaults to `false`.
+  - `browserWSEndpoint` <[string]> 一个用于连接的 [browser websocket endpoint](#browserwsendpoint).
+  - `ignoreHTTPSErrors` <[boolean]> 在导航阶段是否忽略HTTPS错误. 默认为 `false`.
 - returns: <[Promise]<[Browser]>>
 
-This methods attaches Puppeteer to an existing Chromium instance.
+此方法将Puppeteer附加到一个已经存在的Chromium实例.
 
 #### puppeteer.defaultArgs()
-- returns: <[Array]<[string]>> The default flags that Chromium will be launched with.
+- returns: <[Array]<[string]>> 用于Chromium启动的默认的flags.
 
 #### puppeteer.executablePath()
-- returns: <[string]> A path where Puppeteer expects to find bundled Chromium. Chromium might not exist there if the download was skipped with [`PUPPETEER_SKIP_CHROMIUM_DOWNLOAD`](#environment-variables).
+- returns: <[string]> 一个Puppeteer预期能够找到打包的Chromium的路径. 如果使用[`PUPPETEER_SKIP_CHROMIUM_DOWNLOAD`](#environment-variables)忽略下载的话, Chromium 可能不在那个位置.
 
 #### puppeteer.launch([options])
-- `options` <[Object]>  Set of configurable options to set on the browser. Can have the following fields:
-  - `ignoreHTTPSErrors` <[boolean]> Whether to ignore HTTPS errors during navigation. Defaults to `false`.
-  - `headless` <[boolean]> Whether to run browser in [headless mode](https://developers.google.com/web/updates/2017/04/headless-chrome). Defaults to `true` unless the `devtools` option is `true`.
-  - `executablePath` <[string]> Path to a Chromium or Chrome executable to run instead of bundled Chromium. If `executablePath` is a relative path, then it is resolved relative to [current working directory](https://nodejs.org/api/process.html#process_process_cwd).
-  - `slowMo` <[number]> Slows down Puppeteer operations by the specified amount of milliseconds. Useful so that you can see what is going on.
+- `options` <[Object]>  在browser上设置一些可配置的项. 它可以包含以下字段:
+  - `ignoreHTTPSErrors` <[boolean]> 导航期间是否忽略 HTTPS 错误. 默认 `false`.
+  - `headless` <[boolean]> 是否以[headless mode](https://developers.google.com/web/updates/2017/04/headless-chrome)模式运行browser. 除了 `devtools` 选项为 `true`的情况， 默认为 `true`.
+  - `executablePath` <[string]> Chromium 或 Chrome 执行文件的目录 而非打包的Chromium. 如果 `executablePath` 是一个相对目录, 那么它将基于 [current working directory](https://nodejs.org/api/process.html#process_process_cwd) 的相对位置解析.
+  - `slowMo` <[number]> 基于指定数量的毫秒数减慢 Puppeteer 的行为. 当你想要看清都有什么事情发生的时候会有用.
   - `args` <[Array]<[string]>> Additional arguments to pass to the browser instance. List of Chromium flags can be found [here](http://peter.sh/experiments/chromium-command-line-switches/).
   - `ignoreDefaultArgs` <[boolean]> Do not use [`puppeteer.defaultArgs()`](#puppeteerdefaultargs). Dangerous option; use with care. Defaults to `false`.
   - `handleSIGINT` <[boolean]> Close browser process on Ctrl-C. Defaults to `true`.
