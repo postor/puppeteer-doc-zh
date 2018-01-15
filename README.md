@@ -268,6 +268,7 @@ puppeteer.launch().then(async browser => {
 - returns: <[string]> 一个Puppeteer预期能够找到打包的Chromium的路径. 如果使用[`PUPPETEER_SKIP_CHROMIUM_DOWNLOAD`](#environment-variables)忽略下载的话, Chromium 可能不在那个位置.
 
 #### puppeteer.launch([options])
+
 - `options` <[Object]>  在browser上设置一些可配置的项. 它可以包含以下字段:
   - `ignoreHTTPSErrors` <[boolean]> 导航期间是否忽略 HTTPS 错误. 默认 `false`.
   - `headless` <[boolean]> 是否以[headless mode](https://developers.google.com/web/updates/2017/04/headless-chrome)模式运行browser. 除了 `devtools` 选项为 `true`的情况， 默认为 `true`.
