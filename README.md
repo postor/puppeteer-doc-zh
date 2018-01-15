@@ -270,32 +270,30 @@ puppeteer.launch().then(async browser => {
 #### puppeteer.launch([options])
 
 - `options` <[Object]>  在browser上设置一些可配置的项. 它可以包含以下字段:
-  - `ignoreHTTPSErrors` <[boolean]> 导航期间是否忽略 HTTPS 错误. 默认 `false`.
-  - `headless` <[boolean]> 是否以[headless mode](https://developers.google.com/web/updates/2017/04/headless-chrome)模式运行browser. 除了 `devtools` 选项为 `true`的情况， 默认为 `true`.
-  - `executablePath` <[string]> Chromium 或 Chrome 执行文件的目录 而非打包的Chromium. 如果 `executablePath` 是一个相对目录, 那么它将基于 [current working directory](https://nodejs.org/api/process.html#process_process_cwd) 的相对位置解析.
-  - `slowMo` <[number]> 基于指定数量的毫秒数减慢 Puppeteer 的行为. 当你想要看清都有什么事情发生的时候会有用.
-  - `args` <[Array]<[string]>> Additional arguments to pass to the browser instance. List of Chromium flags can be found [here](http://peter.sh/experiments/chromium-command-line-switches/).
-  - `ignoreDefaultArgs` <[boolean]> Do not use [`puppeteer.defaultArgs()`](#puppeteerdefaultargs). Dangerous option; use with care. Defaults to `false`.
-  - `handleSIGINT` <[boolean]> Close browser process on Ctrl-C. Defaults to `true`.
-  - `handleSIGTERM` <[boolean]> Close browser process on SIGTERM. Defaults to `true`.
-  - `handleSIGHUP` <[boolean]> Close browser process on SIGHUP. Defaults to `true`.
-  - `timeout` <[number]> Maximum time in milliseconds to wait for the browser instance to start. Defaults to `30000` (30 seconds). Pass `0` to disable timeout.
-  - `dumpio` <[boolean]> Whether to pipe browser process stdout and stderr into `process.stdout` and `process.stderr`. Defaults to `false`.
-  - `userDataDir` <[string]> Path to a [User Data Directory](https://chromium.googlesource.com/chromium/src/+/master/docs/user_data_dir.md).
-  - `env` <[Object]> Specify environment variables that will be visible to browser. Defaults to `process.env`.
-  - `devtools` <[boolean]> Whether to auto-open DevTools panel for each tab. If this option is `true`, the `headless` option will be set `false`.
-- returns: <[Promise]<[Browser]>> Promise which resolves to browser instance.
+  - `ignoreHTTPSErrors` <[boolean]> 导航期间是否忽略 HTTPS 错误. 默认 `false`.
+  - `headless` <[boolean]> 是否以[headless mode](https://developers.google.com/web/updates/2017/04/headless-chrome)模式运行browser. 除了 `devtools` 选项为 `true`的情况， 默认为 `true`.
+  - `executablePath` <[string]> Chromium 或 Chrome 执行文件的目录 而非打包的Chromium. 如果 `executablePath` 是一个相对目录, 那么它将基于 [current working directory](https://nodejs.org/api/process.html#process_process_cwd) 的相对位置解析.
+  - `slowMo` <[number]> 基于指定数量的毫秒数减慢 Puppeteer 的行为. 当你想要看清都有什么事情发生的时候会有用.
+  - `args` <[Array]<[string]>> 用于传递给浏览器实例的额外的参数. Chromium 的 flags 列表可以去 [这里](http://peter.sh/experiments/chromium-command-line-switches/).
+  - `ignoreDefaultArgs` <[boolean]> 不要使用 [`puppeteer.defaultArgs()`](#puppeteerdefaultargs). 危险的配置项; 使用时请小心. 默认 `false`.
+  - `handleSIGINT` <[boolean]> 在你 Ctrl-C的时候结束浏览器进程. 默认 `true`.
+  - `handleSIGTERM` <[boolean]> 在收到 SIGTERM 信号时结束浏览器进程. 默认 `true`.
+  - `handleSIGHUP` <[boolean]> 在收到 SIGHUP 信号时结束浏览器进程. 默认 `true`.
+  - `timeout` <[number]> 等待浏览器实例启动的毫秒数限制. 默认 `30000` (30 秒).  `0` 表示不限制.
+  - `dumpio` <[boolean]> 是否将浏览器的标准输出和错误管道到 `process.stdout` 和 `process.stderr`. 默认 `false`.
+  - `userDataDir` <[string]> [User Data Directory](https://chromium.googlesource.com/chromium/src/+/master/docs/user_data_dir.md) 的路径.
+  - `env` <[Object]> 指定浏览器的环境变量. 默认为 `process.env`.
+  - `devtools` <[boolean]> 是否自动给每个tab开启 DevTools 面板. 如果本选项设为 `true`, 则 `headless` 选项会被设置为 `false`.
+- returns: <[Promise]<[Browser]>> 一个浏览器实例相关的 Promise.
 
-The method launches a browser instance with given arguments. The browser will be closed when the parent node.js process is closed.
+这个方法使用给定的参数启动一个浏览器实例. 浏览器进程会在node.js进程结束时自动关闭.
 
-> **NOTE** Puppeteer can also be used to control the Chrome browser, but it works best with the version of Chromium it is bundled with. There is no
- guarantee it will work with any other version. Use `executablePath` option with extreme caution.
-If Google Chrome (rather than Chromium) is preferred, a [Chrome Canary](https://www.google.com/chrome/browser/canary.html) or [Dev Channel](https://www.chromium.org/getting-involved/dev-channel) build is suggested.
+> **注意** Puppeteer 也可以用于控制 Chrome 浏览器, 但是它最好和对应的打包版本的 Chromium. 在不对应的版本上并不保证运行. 使用 `executablePath` 选项需要额外的注意.
+如果你更喜欢 Google Chrome , 建议使用 [Chrome Canary](https://www.google.com/chrome/browser/canary.html) 或 [Dev Channel](https://www.chromium.org/getting-involved/dev-channel) 版本.
 >
-> In [puppeteer.launch([options])](#puppeteerlaunchoptions) above, any mention of Chromium also applies to Chrome.
+> 在前面的 [puppeteer.launch([options])](#puppeteerlaunchoptions) , 所有提及 Chromium 的内容同样适用 Chrome.
 >
-> See [`this article`](https://www.howtogeek.com/202825/what%E2%80%99s-the-difference-between-chromium-and-chrome/) for a description
-  of the differences between Chromium and Chrome. [`This article`](https://chromium.googlesource.com/chromium/src/+/lkcr/docs/chromium_browser_vs_google_chrome.md) describes some differences for Linux users.
+> 请阅读 [`这篇文章`](https://www.howtogeek.com/202825/what%E2%80%99s-the-difference-between-chromium-and-chrome/) 了解 Chromium 和 Chrome 的不同. [`This article`](https://chromium.googlesource.com/chromium/src/+/lkcr/docs/chromium_browser_vs_google_chrome.md) describes some differences for Linux users.
 
 ### class: Browser
 
