@@ -284,24 +284,24 @@ puppeteer.launch().then(async browser => {
   - `userDataDir` <[string]> [User Data Directory](https://chromium.googlesource.com/chromium/src/+/master/docs/user_data_dir.md) 的路径.
   - `env` <[Object]> 指定浏览器的环境变量. 默认为 `process.env`.
   - `devtools` <[boolean]> 是否自动给每个tab开启 DevTools 面板. 如果本选项设为 `true`, 则 `headless` 选项会被设置为 `false`.
-- returns: <[Promise]<[Browser]>> 一个浏览器实例相关的 Promise.
+- returns: <[Promise]<[Browser]>> resolve 一个 browser 实例的 Promise.
 
 这个方法使用给定的参数启动一个浏览器实例. 浏览器进程会在node.js进程结束时自动关闭.
 
-> **注意** Puppeteer 也可以用于控制 Chrome 浏览器, 但是它最好和对应的打包版本的 Chromium. 在不对应的版本上并不保证运行. 使用 `executablePath` 选项需要额外的注意.
+> **NOTE** Puppeteer 也可以用于控制 Chrome 浏览器, 但是它最好和对应的打包版本的 Chromium. 在不对应的版本上并不保证运行. 使用 `executablePath` 选项需要额外的注意.
 如果你更喜欢 Google Chrome , 建议使用 [Chrome Canary](https://www.google.com/chrome/browser/canary.html) 或 [Dev Channel](https://www.chromium.org/getting-involved/dev-channel) 版本.
 >
 > 在前面的 [puppeteer.launch([options])](#puppeteerlaunchoptions) , 所有提及 Chromium 的内容同样适用 Chrome.
 >
-> 请阅读 [`这篇文章`](https://www.howtogeek.com/202825/what%E2%80%99s-the-difference-between-chromium-and-chrome/) 了解 Chromium 和 Chrome 的不同. [`This article`](https://chromium.googlesource.com/chromium/src/+/lkcr/docs/chromium_browser_vs_google_chrome.md) describes some differences for Linux users.
+> 请阅读 [`这篇文章`](https://www.howtogeek.com/202825/what%E2%80%99s-the-difference-between-chromium-and-chrome/) 了解 Chromium 和 Chrome 的不同. [`这篇文章`](https://chromium.googlesource.com/chromium/src/+/lkcr/docs/chromium_browser_vs_google_chrome.md) 描述了 Linux 用户的一些不同.
 
 ### class: Browser
 
 * extends: [`EventEmitter`](https://nodejs.org/api/events.html#events_class_eventemitter)
 
-A Browser is created when Puppeteer connects to a Chromium instance, either through [`puppeteer.launch`](#puppeteerlaunchoptions) or [`puppeteer.connect`](#puppeteerconnectoptions).
+当 Puppeteer 链接到 Chromium 实例的时候， 一个 Browser 就会被创建, 不论是通过 [`puppeteer.launch`](#puppeteerlaunchoptions) 还是 [`puppeteer.connect`](#puppeteerconnectoptions).
 
-An example of using a [Browser] to create a [Page]:
+使用一个 [Browser] 创建一个 [Page] 的例子:
 ```js
 const puppeteer = require('puppeteer');
 
@@ -312,7 +312,7 @@ puppeteer.launch().then(async browser => {
 });
 ```
 
-An example of disconnecting from and reconnecting to a [Browser]:
+一个断开和重连到一个 [Browser] 的例子:
 ```js
 const puppeteer = require('puppeteer');
 
@@ -329,71 +329,70 @@ puppeteer.launch().then(async browser => {
 });
 ```
 #### event: 'disconnected'
-Emitted when puppeteer gets disconnected from the Chromium instance. This might happen because one of the following:
-- Chromium is closed or crashed
-- `browser.disconnect` method was called
+当 puppeteer 从 Chromium 实例断开时触发. 出现这种情况可能是因为以下原因:
+- Chromium 被关闭或崩溃
+- `browser.disconnect` 方法被调用
 
 #### event: 'targetchanged'
 - <[Target]>
 
-Emitted when the url of a target changes.
+在 target 的 url 变化时触发.
 
 #### event: 'targetcreated'
 - <[Target]>
 
-Emitted when a target is created, for example when a new page is opened by [`window.open`](https://developer.mozilla.org/en-US/docs/Web/API/Window/open) or [`browser.newPage`](#browsernewpage).
+当一个 target 被创建时触发, 例如当一个页面由 [`window.open`](https://developer.mozilla.org/en-US/docs/Web/API/Window/open) 或 [`browser.newPage`](#browsernewpage) 创建时.
 
 #### event: 'targetdestroyed'
 - <[Target]>
 
-Emitted when a target is destroyed, for example when a page is closed.
+当 target 被销毁时触发, 例如页面被关闭.
 
 #### browser.close()
 - returns: <[Promise]>
 
-Closes Chromium and all of its pages (if any were opened). The browser object itself is considered disposed and cannot be used anymore.
+关闭 Chromium 和它的所有页面. browser 对象本身被认为是已销毁并且无法使用的.
 
 #### browser.disconnect()
 
-Disconnects Puppeteer from the browser, but leaves the Chromium process running. After calling `disconnect`, the browser object is considered disposed and cannot be used anymore.
+将 Puppeteer 从浏览器断开, 但是保留 Chromium 进程继续运行. 在 `disconnect` 之后, browser 对象被认为是已销毁并且无法使用的.
 
 #### browser.newPage()
-- returns: <[Promise]<[Page]>> Promise which resolves to a new [Page] object.
+- returns: <[Promise]<[Page]>> resolve 一个新的 [Page] 对象的 Promise.
 
 #### browser.pages()
-- returns: <[Promise]<[Array]<[Page]>>> Promise which resolves to an array of all open pages.
+- returns: <[Promise]<[Array]<[Page]>>> resolve 一个包含所有打开页面的数组 的 Promise.
 
 #### browser.process()
-- returns: <?[ChildProcess]> Spawned browser process. Returns `null` if the browser instance was created with `puppeteer.connect` method.
+- returns: <?[ChildProcess]> Spawned 浏览器进程. 如果通过 `puppeteer.connect` 方法创建则返回 `null`.
 
 #### browser.targets()
-- returns: <[Array]<[Target]>> An array of all active targets.
+- returns: <[Array]<[Target]>> 一个包含所有活跃 target 的数组.
 
 #### browser.userAgent()
-- returns: <[Promise]<[string]>> Promise which resolves to the browser's original user agent.
+- returns: <[Promise]<[string]>> resolve 浏览器原始 user agent 的 Promise.
 
-> **NOTE** Pages can override browser user agent with [page.setUserAgent](#pagesetuseragentuseragent)
+> **NOTE** Pages 可以通过 [page.setUserAgent](#pagesetuseragentuseragent) 设置覆盖浏览器的 user agent
 
 #### browser.version()
-- returns: <[Promise]<[string]>> For headless Chromium, this is similar to `HeadlessChrome/61.0.3153.0`. For non-headless, this is similar to `Chrome/61.0.3153.0`.
+- returns: <[Promise]<[string]>> 对于 headless 的 Chromium, 结果类似于 `HeadlessChrome/61.0.3153.0`. 对于非 headless 模式的, 结果类似于 `Chrome/61.0.3153.0`.
 
-> **NOTE** the format of browser.version() might change with future releases of Chromium.
+> **NOTE** browser.version() 的格式有可能在未来的 Chromium 发布中发生变化.
 
 #### browser.wsEndpoint()
-- returns: <[string]> Browser websocket url.
+- returns: <[string]> 浏览器的 websocket url.
 
-Browser websocket endpoint which can be used as an argument to
-[puppeteer.connect](#puppeteerconnectoptions). The format is `ws://${host}:${port}/devtools/browser/<id>`
+浏览器的 websocket endpoint 可以作为 [puppeteer.connect](#puppeteerconnectoptions) 的参数. 格式： `ws://${host}:${port}/devtools/browser/<id>`
 
-You can find the `webSocketDebuggerUrl` from `http://${host}:${port}/json/version`. Learn more about the [devtools protocol](https://chromedevtools.github.io/devtools-protocol) and the [browser endpoint](https://chromedevtools.github.io/devtools-protocol/#how-do-i-access-the-browser-target).
+你可以在 `http://${host}:${port}/json/version` 找到 `webSocketDebuggerUrl`. 点击了解更多关于 [devtools protocol](https://chromedevtools.github.io/devtools-protocol) 和 [browser endpoint](https://chromedevtools.github.io/devtools-protocol/#how-do-i-access-the-browser-target) 的信息.
 
 ### class: Page
 
 * extends: [`EventEmitter`](https://nodejs.org/api/events.html#events_class_eventemitter)
 
-Page provides methods to interact with a single tab in Chromium. One [Browser] instance might have multiple [Page] instances.
+Page 提供了各种方法来和 Chromium 中一个单独的 tab 交互. 一个 [Browser] 实例可以包含多个 [Page] 实例.
 
-This example creates a page, navigates it to a URL, and then saves a screenshot:
+本例子展示了创建一个 page， 导航到一个 URL， 然后保存截图:
 ```js
 const puppeteer = require('puppeteer');
 
@@ -405,9 +404,9 @@ puppeteer.launch().then(async browser => {
 });
 ```
 
-The Page class emits various events (described below) which can be handled using any of Node's native EventEmitter methods, such as `on` or `once`.
+Page 类触发多种 events (下面会细讲) ， 这些 events 可以通过 node.js 原生的 EventEmitter 方法来处理, 例如 `on` 或者 `once`.
 
-This example logs a message for a single page `load` event:
+这个例子在一个页面 `load` event 触发时输出日志:
 ```js
 page.once('load', () => console.log('Page loaded!'));
 ```
@@ -415,11 +414,11 @@ page.once('load', () => console.log('Page loaded!'));
 #### event: 'console'
 - <[ConsoleMessage]>
 
-Emitted when JavaScript within the page calls one of console API methods, e.g. `console.log` or `console.dir`. Also emitted if the page throws an error or a warning.
+当页面中的 JavaScript 调用 console API 方法时触发, 例如 `console.log` 或 `console.dir`. 在页面抛出错误或警告时也会触发.
 
-The arguments passed into `console.log` appear as arguments on the event handler.
+传递到 `console.log` 的参数会作为 event handler 的参数.
 
-An example of handling `console` event:
+一个处理 `console` 事件的例子:
 ```js
 page.on('console', msg => {
   for (let i = 0; i < msg.args.length; ++i)
@@ -431,58 +430,56 @@ page.evaluate(() => console.log('hello', 5, {foo: 'bar'}));
 #### event: 'dialog'
 - <[Dialog]>
 
-Emitted when a JavaScript dialog appears, such as `alert`, `prompt`, `confirm` or `beforeunload`. Puppeteer can respond to the dialog via [Dialog]'s [accept](#dialogacceptprompttext) or [dismiss](#dialogdismiss) methods.
+当 JavaScript 弹窗出现时触发 , 例如 `alert`, `prompt`, `confirm` 或 `beforeunload`. Puppeteer 可以通过 [Dialog]'s [accept](#dialogacceptprompttext) 或 [dismiss](#dialogdismiss) 对这些弹窗进行应答.
 
 #### event: 'error'
 - <[Error]>
 
-Emitted when the page crashes.
+当页面崩溃时触发.
 
-> **NOTE** `error` event has a special meaning in Node, see [error events](https://nodejs.org/api/events.html#events_error_events) for details.
+> **NOTE** `error` 事件在Node中具有特殊的含义, 参考 [error events](https://nodejs.org/api/events.html#events_error_events) 了解详情.
 
 #### event: 'frameattached'
 - <[Frame]>
 
-Emitted when a frame is attached.
+当一个 frame 接入的时候触发.
 
 #### event: 'framedetached'
 - <[Frame]>
 
-Emitted when a frame is detached.
+当一个 frame 移除的时候触发.
 
 #### event: 'framenavigated'
 - <[Frame]>
 
-Emitted when a frame is navigated to a new url.
+当一个frame导航到新的url时触发.
 
 #### event: 'load'
 
-Emitted when the JavaScript [`load`](https://developer.mozilla.org/en-US/docs/Web/Events/load) event is dispatched.
+当 JavaScript [`load`](https://developer.mozilla.org/en-US/docs/Web/Events/load) 事件分发的时候触发.
 
 #### event: 'metrics'
 - <[Object]>
-  - `title` <[string]> The title passed to `console.timeStamp`.
-  - `metrics` <[Object]> Object containing metrics as key/value pairs. The values
-    of metrics are of <[number]> type.
+  - `title` <[string]> 传递给 `console.timeStamp` 的标题.
+  - `metrics` <[Object]> 包含 metrics 作为键值对. metrics 的值都是 <[number]> 类型.
 
-Emitted when the JavaScript code makes a call to `console.timeStamp`. For the list
-of metrics see `page.metrics`.
+当 JavaScript 代码调用 `console.timeStamp` 时触发. 参考 `page.metrics` 了解 metrics 列表.
 
 #### event: 'pageerror'
-- <[string]> The exception message
+- <[string]> 异常的消息文本
 
-Emitted when an uncaught exception happens within the page.
+当页面内出现未捕获的异常时触发.
 
 #### event: 'request'
 - <[Request]>
 
-Emitted when a page issues a request. The [request] object is read-only.
-In order to intercept and mutate requests, see `page.setRequestInterception`.
+当页面发起一个请求时触发. [request] 对象是只读的.
+想要拦截和修改请求，参考 `page.setRequestInterception`.
 
 #### event: 'requestfailed'
 - <[Request]>
 
-Emitted when a request fails, for example by timing out.
+当一个请求失败时触发, for example by timing out.
 
 #### event: 'requestfinished'
 - <[Request]>
