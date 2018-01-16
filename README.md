@@ -479,7 +479,7 @@ page.evaluate(() => console.log('hello', 5, {foo: 'bar'}));
 #### event: 'requestfailed'
 - <[Request]>
 
-当一个请求失败时触发, for example by timing out.
+当一个请求失败时触发, 例如超时.
 
 #### event: 'requestfinished'
 - <[Request]>
