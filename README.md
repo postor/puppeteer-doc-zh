@@ -484,12 +484,12 @@ page.evaluate(() => console.log('hello', 5, {foo: 'bar'}));
 #### event: 'requestfinished'
 - <[Request]>
 
-Emitted when a request finishes successfully.
+当一个请求成功完成时触发.
 
 #### event: 'response'
 - <[Response]>
 
-Emitted when a [response] is received.
+当收到一个 [response] 时触发.
 
 #### page.$(selector)
 - `selector` <[string]> A [selector] to query page for
