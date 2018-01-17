@@ -492,85 +492,85 @@ page.evaluate(() => console.log('hello', 5, {foo: 'bar'}));
 当收到一个 [response] 时触发.
 
 #### page.$(selector)
-- `selector` <[string]> A [selector] to query page for
+- `selector` <[string]> 一个用于查询 page 的 [selector]
 - returns: <[Promise]<?[ElementHandle]>>
 
-The method runs `document.querySelector` within the page. If no element matches the selector, the return value resolve to `null`.
+此方法运行页面中的`document.querySelector`. 如果没有匹配的元素, resolve 结果会是 `null`.
 
-Shortcut for [page.mainFrame().$(selector)](#frameselector).
+是 [page.mainFrame().$(selector)](#frameselector) 的捷径.
 
 #### page.$$(selector)
-- `selector` <[string]> A [selector] to query page for
+- `selector` <[string]> 一个用于查询 page 的 [selector]
 - returns: <[Promise]<[Array]<[ElementHandle]>>>
 
-The method runs `document.querySelectorAll` within the page. If no elements match the selector, the return value resolve to `[]`.
+此方法运行页面中的 `document.querySelectorAll`. 如果没有匹配的元素, resolve 结果会是 `[]`.
 
-Shortcut for [page.mainFrame().$$(selector)](#frameselector-1).
+是 [page.mainFrame().$$(selector)](#frameselector-1) 的捷径.
 
 
 #### page.$$eval(selector, pageFunction[, ...args])
-- `selector` <[string]> A [selector] to query frame for
-- `pageFunction` <[function]> Function to be evaluated in browser context
-- `...args` <...[Serializable]|[JSHandle]> Arguments to pass to `pageFunction`
-- returns: <[Promise]<[Serializable]>> Promise which resolves to the return value of `pageFunction`
+- `selector` <[string]> 一个用于查询 frame 的 [selector]
+- `pageFunction` <[function]> 要在浏览器上下文中执行的函数
+- `...args` <...[Serializable]|[JSHandle]> 要传递给 `pageFunction` 的参数
+- returns: <[Promise]<[Serializable]>> 一个 resolve `pageFunction` 返回值的 Promise
 
-This method runs `document.querySelectorAll` within the page and passes it as the first argument to `pageFunction`.
+此方法在 page 中运行 `document.querySelectorAll` 并且将其作为第一个参数传递给 `pageFunction`.
 
-If `pageFunction` returns a [Promise], then `page.$$eval` would wait for the promise to resolve and return its value.
+如果 `pageFunction` 返回一个 [Promise], 那么 `page.$$eval` 会等待这个 promise 直到 resolve 并且返回它的值.
 
-Examples:
+示例:
 ```js
 const divsCounts = await page.$$eval('div', divs => divs.length);
 ```
 
 #### page.$eval(selector, pageFunction[, ...args])
-- `selector` <[string]> A [selector] to query page for
-- `pageFunction` <[function]> Function to be evaluated in browser context
-- `...args` <...[Serializable]|[JSHandle]> Arguments to pass to `pageFunction`
-- returns: <[Promise]<[Serializable]>> Promise which resolves to the return value of `pageFunction`
+- `selector` <[string]> 一个用于查询 page 的 [selector] 
+- `pageFunction` <[function]> 要在浏览器上下文中执行的函数
+- `...args` <...[Serializable]|[JSHandle]> 要传递给 `pageFunction` 的参数
+- returns: <[Promise]<[Serializable]>> 一个 resolve `pageFunction` 返回值的 Promise
 
-This method runs `document.querySelector` within the page and passes it as the first argument to `pageFunction`. If there's no element matching `selector`, the method throws an error.
+此方法在 page 中运行 `document.querySelector` 并且将其作为第一个参数传递给 `pageFunction`. 如果没有匹配 `selector` 的元素, 此方法将会抛出错误.
 
-If `pageFunction` returns a [Promise], then `page.$eval` would wait for the promise to resolve and return its value.
+如果 `pageFunction` 返回的是一个 [Promise], 那么 `page.$eval` 会等待这个 promise 直到 resolve 并且返回它的值.
 
-Examples:
+示例:
 ```js
 const searchValue = await page.$eval('#search', el => el.value);
 const preloadHref = await page.$eval('link[rel=preload]', el => el.href);
 const html = await page.$eval('.main-container', e => e.outerHTML);
 ```
 
-Shortcut for [page.mainFrame().$eval(selector, pageFunction)](#frameevalselector-pagefunction-args).
+是 [page.mainFrame().$eval(selector, pageFunction)](#frameevalselector-pagefunction-args) 的捷径.
 
 #### page.$x(expression)
-- `expression` <[string]> Expression to [evaluate](https://developer.mozilla.org/en-US/docs/Web/API/Document/evaluate).
+- `expression` <[string]> 用于 [evaluate](https://developer.mozilla.org/en-US/docs/Web/API/Document/evaluate) 的表达式.
 - returns: <[Promise]<[Array]<[ElementHandle]>>>
 
-The method evluates the XPath expression.
+此方法用于计算 XPath 表达式.
 
-Shortcut for [page.mainFrame().$x(expression)](#frameexpression)
+是 [page.mainFrame().$x(expression)](#frameexpression) 的捷径
 
 #### page.addScriptTag(options)
 - `options` <[Object]>
-  - `url` <[string]> Url of a script to be added.
-  - `path` <[string]> Path to the JavaScript file to be injected into frame. If `path` is a relative path, then it is resolved relative to [current working directory](https://nodejs.org/api/process.html#process_process_cwd).
-  - `content` <[string]> Raw JavaScript content to be injected into frame.
-- returns: <[Promise]<[ElementHandle]>> which resolves to the added tag when the script's onload fires or when the script content was injected into frame.
+  - `url` <[string]> 要添加脚本的 Url.
+  - `path` <[string]> 要注入到 frame 的脚本文件的路径. 如果 `path` 是一个相对路径, 那么它将会相对于 [current working directory](https://nodejs.org/api/process.html#process_process_cwd) 解析.
+  - `content` <[string]> 要注入到 frame 的 JavaScript 脚本的内容.
+- returns: <[Promise]<[ElementHandle]>> 一个当添加的标签 onload 事件触发的时候，或者脚本内容注入到 frame 的时候 resolve 的 Promise.
 
-Adds a `<script>` tag into the page with the desired url or content.
+添加一个带有指定 url 或内容的 `<script>` 标签到 page 中
 
-Shortcut for [page.mainFrame().addScriptTag(options)](#frameaddscripttagoptions).
+是 [page.mainFrame().addScriptTag(options)](#frameaddscripttagoptions) 的捷径.
 
 #### page.addStyleTag(options)
 - `options` <[Object]>
-  - `url` <[string]> Url of the `<link>` tag.
-  - `path` <[string]> Path to the CSS file to be injected into frame. If `path` is a relative path, then it is resolved relative to [current working directory](https://nodejs.org/api/process.html#process_process_cwd).
-  - `content` <[string]> Raw CSS content to be injected into frame.
-- returns: <[Promise]<[ElementHandle]>> which resolves to the added tag when the stylesheet's onload fires or when the CSS content was injected into frame.
+  - `url` <[string]> `<link>` 标签的 url.
+  - `path` <[string]> 要注入到 frame 的 CSS 文件路径. 如果 `path` 是一个相对路径, 那么它将会相对于 [current working directory](https://nodejs.org/api/process.html#process_process_cwd) 解析.
+  - `content` <[string]> 要注入到 frame 的 CSS 内容.
+- returns: <[Promise]<[ElementHandle]>> 一个当添加的标签 onload 事件触发的时候，或者 CSS 内容注入到 frame 的时候 resolve 的 Promise.
 
-Adds a `<link rel="stylesheet">` tag into the page with the desired url or a `<style type="text/css">` tag with the content.
+添加一个指定 url 的 `<link rel="stylesheet">` 标签到页面或者是一个包含指定内容的 `<style type="text/css">` 标签.
 
-Shortcut for [page.mainFrame().addStyleTag(options)](#frameaddstyletagoptions).
+是 [page.mainFrame().addStyleTag(options)](#frameaddstyletagoptions) 的捷径.
 
 #### page.authenticate(credentials)
 - `credentials` <?[Object]>
@@ -578,28 +578,28 @@ Shortcut for [page.mainFrame().addStyleTag(options)](#frameaddstyletagoptions).
   - `password` <[string]>
 - returns: <[Promise]>
 
-Provide credentials for [http authentication](https://developer.mozilla.org/en-US/docs/Web/HTTP/Authentication).
+给 [http authentication](https://developer.mozilla.org/en-US/docs/Web/HTTP/Authentication) 提供身份认证凭据.
 
-To disable authentication, pass `null`.
+如需禁用身份认证, 传入 `null`.
 
 #### page.bringToFront()
 
 - returns: <[Promise]>
 
-Brings page to front (activates tab).
+把 page 移到 front (激活 tab).
 
 #### page.click(selector[, options])
-- `selector` <[string]> A [selector] to search for element to click. If there are multiple elements satisfying the selector, the first will be clicked.
+- `selector` <[string]> 一个用于搜索一个用于点击的元素的 [selector]. 如果有多个元素匹配这个 selector, 则第一个会被点击.
 - `options` <[Object]>
-  - `button` <[string]> `left`, `right`, or `middle`, defaults to `left`.
-  - `clickCount` <[number]> defaults to 1. See [UIEvent.detail].
-  - `delay` <[number]> Time to wait between `mousedown` and `mouseup` in milliseconds. Defaults to 0.
-- returns: <[Promise]> Promise which resolves when the element matching `selector` is successfully clicked. The Promise will be rejected if there is no element matching `selector`.
+  - `button` <[string]> `left`, `right`, 或者 `middle`, 默认 `left`.
+  - `clickCount` <[number]> 默认为 1. 参见 [UIEvent.detail].
+  - `delay` <[number]> `mousedown` 和 `mouseup` 之间的等待毫秒数时间. 默认为 0.
+- returns: <[Promise]> 返回一个Promise，它在匹配 `selector` 的元素被点击时 resolve. 在没有元素匹配 `selector` 时 reject.
 
-This method fetches an element with `selector`, scrolls it into view if needed, and then uses [page.mouse](#pagemouse) to click in the center of the element.
-If there's no element matching `selector`, the method throws an error.
+此方法通过 `selector` 获取一个元素, 如果需要的话会将其滚动到视窗内, 然后使用 [page.mouse](#pagemouse) 来点击这个元素的中心.
+如果没有匹配 `selector` 的元素, 这个方法将会抛出错误.
 
-Bare in mind that if `click()` triggers a navigation event and there's a separate `page.waitForNavigation()` promise to be resolved, you may end up with a race condition that yields unexpected results. The correct pattern for click and wait for navigation is the following:
+记住，如果 `click()` triggers a navigation event and there's a separate `page.waitForNavigation()` promise to be resolved, you may end up with a race condition that yields unexpected results. The correct pattern for click and wait for navigation is the following:
 
 ```javascript
 const [response] = await Promise.all([
